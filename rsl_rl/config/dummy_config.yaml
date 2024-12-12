@@ -1,0 +1,41 @@
+algorithm:
+  class_name: PPO
+  value_loss_coef: 1.0
+  clip_param: 0.2
+  use_clipped_value_loss: true
+  desired_kl: 0.01
+  entropy_coef: 0.01
+  gamma: 0.99
+  lam: 0.95
+  max_grad_norm: 1.0
+  learning_rate: 0.001
+  num_learning_epochs: 5
+  num_mini_batches: 4
+  schedule: adaptive
+
+policy:
+  class_name: ActorCritic
+  activation: elu
+  actor_hidden_dims: [128, 128, 128]
+  critic_hidden_dims: [128, 128, 128]
+  init_noise_std: 1.0
+
+runner:
+  max_iterations: 1500
+  
+
+  experiment_name: walking_experiment
+  run_name: ""
+  logger: tensorboard
+  resume: false
+  load_run: -1
+  resume_path: null
+  checkpoint: -1
+
+runner_class_name: OnPolicyRunner
+seed: 1
+
+# 关键配置项，放置在顶层
+num_steps_per_env: 24
+save_interval: 50
+empirical_normalization: false

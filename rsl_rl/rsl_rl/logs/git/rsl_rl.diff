@@ -1,0 +1,93 @@
+--- git status ---
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   config/dummy_config.yaml
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	rsl_rl/env/custom_vec_env.py
+	rsl_rl/logs/
+	rsl_rl/train.py
+
+no changes added to commit (use "git add" and/or "git commit -a") 
+
+
+--- git diff ---
+diff --git a/config/dummy_config.yaml b/config/dummy_config.yaml
+index aaf5d21..b1f5562 100644
+--- a/config/dummy_config.yaml
++++ b/config/dummy_config.yaml
+@@ -1,48 +1,41 @@
+ algorithm:
+   class_name: PPO
+-  # training parameters
+-  # -- value function
+   value_loss_coef: 1.0
+   clip_param: 0.2
+   use_clipped_value_loss: true
+-  # -- surrogate loss
+   desired_kl: 0.01
+   entropy_coef: 0.01
+   gamma: 0.99
+   lam: 0.95
+   max_grad_norm: 1.0
+-  # -- training
+   learning_rate: 0.001
+   num_learning_epochs: 5
+-  num_mini_batches: 4  # mini batch size = num_envs * num_steps / num_mini_batches
+-  schedule: adaptive  # adaptive, fixed
++  num_mini_batches: 4
++  schedule: adaptive
++
+ policy:
+   class_name: ActorCritic
+-  # for MLP i.e. `ActorCritic`
+   activation: elu
+   actor_hidden_dims: [128, 128, 128]
+   critic_hidden_dims: [128, 128, 128]
+   init_noise_std: 1.0
+-  # only needed for `ActorCriticRecurrent`
+-  # rnn_type: 'lstm'
+-  # rnn_hidden_size: 512
+-  # rnn_num_layers: 1
++
+ runner:
+-    num_steps_per_env: 24  # number of steps per environment per iteration
+-    max_iterations: 1500  # number of policy updates
+-    empirical_normalization: false
+-    # -- logging parameters
+-    save_interval: 50  # check for potential saves every `save_interval` iterations
+-    experiment_name: walking_experiment
+-    run_name: ""
+-    # -- logging writer
+-    logger: tensorboard  # tensorboard, neptune, wandb
+-    neptune_project: legged_gym
+-    wandb_project: legged_gym
+-    # -- load and resuming
+-    resume: false
+-    load_run: -1  # -1 means load latest run
+-    resume_path: null  # updated from load_run and checkpoint
+-    checkpoint: -1  # -1 means load latest checkpoint
++  max_iterations: 1500
++  
++
++  experiment_name: walking_experiment
++  run_name: ""
++  logger: tensorboard
++  resume: false
++  load_run: -1
++  resume_path: null
++  checkpoint: -1
++
+ runner_class_name: OnPolicyRunner
+ seed: 1
++
++# 关键配置项，放置在顶层
++num_steps_per_env: 24
++save_interval: 50
++empirical_normalization: false
+\ No newline at end of file
